@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life Simulator – Early Years</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Life Simulator: Baby & Kid Years</h1>
+
+    <div id="setup">
+      <h2>Choose Your Gender</h2>
+      <button onclick="chooseGender('Male')">Male</button>
+      <button onclick="chooseGender('Female')">Female</button>
+      <p id="playerNameDisplay"></p>
+    </div>
+
+    <div id="stats" style="display:none;">
+      <h2>Player Info</h2>
+      <p id="age">Age: 0</p>
+      <p id="happiness">Happiness: 50</p>
+      <p id="health">Health: 100</p>
+      <p id="intelligence">Intelligence: 50</p>
+
+      <h2>Family</h2>
+      <p id="familyInfo"></p>
+
+      <h2>Life Events</h2>
+      <div id="events"></div>
+
+      <button onclick="advanceMonth()">Next Month</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
