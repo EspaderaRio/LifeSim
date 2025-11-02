@@ -1,14 +1,13 @@
 export let player = {
+    // Basic Info
     firstName: "",
     middleName: "",
     surname: "",
     gender: "",
     nationality: "",
-    appearance: {
-        hairColor: "",
-        eyeColor: "",
-        style: ""
-    },
+    appearance: { hairColor: "", eyeColor: "", style: "" },
+
+    // Stats
     stats: {
         happiness: 50,
         intelligence: 50,
@@ -16,28 +15,33 @@ export let player = {
         appearance: 50,
         popularity: 50
     },
+
+    // Age & Progression
     age: 0,
     month: 1,
     lifeStage: "baby",
-    skills: {
-        athletic: 0,
-        acting: 0,
-        music: 0,
-        modeling: 0
-    },
-    family: {
-        father: {},
-        mother: {},
-        siblings: []
-    },
-    profession: null,
+
+    // Skills
+    skills: { athletic: 0, acting: 0, music: 0, modeling: 0 },
+
+    // Education & Career
     education: null,
+    profession: null,
     clubs: [],
-    pets: []
+    school: null,
+    college: null,
+
+    // Family
+    family: { father: {}, mother: {}, siblings: [] },
+
+    // Player choices
+    pets: [],
+    money: 0
 };
 
+// --- Family Generation ---
 export function generateFamily() {
-    const firstNames = ["John", "Alice", "Emma", "Liam", "Sophia"];
+    const firstNames = ["John", "Alice", "Emma", "Liam", "Sophia", "Noah", "Olivia"];
     player.family.father = {
         firstName: firstNames[Math.floor(Math.random() * firstNames.length)],
         middleName: randomMiddleName(),
