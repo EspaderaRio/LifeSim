@@ -5,24 +5,40 @@ body {
     color: #fff;
     overflow-x: hidden;
 }
+.character-preview {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#character-image {
+  width: 200px;
+  height: auto;
+  border-radius: 10px;
+}
+
 .options-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
 .option-svg {
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    transition: 0.2s;
+  width: 100px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.option-svg:hover {
+  transform: scale(1.05);
 }
 
 .option-svg.selected {
-    border-color: #7597de;
-    transform: scale(1.1);
+  border-color: #7597de;
+  transform: scale(1.1);
 }
 
 #character-tab {
