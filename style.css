@@ -5,6 +5,33 @@ body {
     color: #fff;
     overflow-x: hidden;
 }
+.options-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.option-svg {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.option-svg.selected {
+    border-color: #7597de;
+    transform: scale(1.1);
+}
+
+#character-tab {
+    background: #1e1e2f;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
 
 .hidden { display: none; }
 
