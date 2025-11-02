@@ -5,7 +5,7 @@ export let player = {
     surname: "",
     gender: "",
     nationality: "",
-    appearance: { hairColor: "", eyeColor: "", style: "" },
+    appearance: {},
 
     // Stats
     stats: {
