@@ -48,8 +48,6 @@
         </div>
       <div id="character-preview" class="character-preview">
     <img id="face-layer" src="assets/svgs/face1.svg" class="layer">
-    <img id="eyes-layer" src="assets/svgs/eyes1.svg" class="layer">
-    <img id="hair-layer" src="assets/svgs/hair1.svg" class="layer">
     <img id="outfit-layer" src="assets/svgs/outfit1.svg" class="layer">
 </div>
 
@@ -60,32 +58,33 @@
             <p>Appearance: <span id="appearance">50</span></p>
             <p>Popularity: <span id="popularity">50</span></p>
         </div>
-      <div id="character-tab" class="hidden">
+<div id="character-tab" class="hidden">
     <h2>Customize Your Character</h2>
-    <div class="appearance-section">
-        <h3>Hair</h3>
+    
+    <div id="hair-selection" class="selection-step">
+        <h3>Step 1: Choose Hair</h3>
         <div id="hair-options" class="options-container">
             <img src="assets/svgs/hair1.svg" data-hair="hair1" class="option-svg">
             <img src="assets/svgs/hair2.svg" data-hair="hair2" class="option-svg">
             <img src="assets/svgs/hair3.svg" data-hair="hair3" class="option-svg">
         </div>
+    </div>
 
-        <h3>Eyes</h3>
-        <div id="eye-options" class="options-container">
-            <img src="assets/svgs/eyes1.svg" data-eye="eyes1" class="option-svg">
-            <img src="assets/svgs/eyes2.svg" data-eye="eyes2" class="option-svg">
-            <img src="assets/svgs/eyes3.svg" data-eye="eyes3" class="option-svg">
-        </div>
-
-        <h3>Outfit / Style</h3>
-        <div id="style-options" class="options-container">
-            <img src="assets/svgs/style1.svg" data-style="style1" class="option-svg">
-            <img src="assets/svgs/style2.svg" data-style="style2" class="option-svg">
-            <img src="assets/svgs/style3.svg" data-style="style3" class="option-svg">
+    <div id="outfit-selection" class="selection-step hidden">
+        <h3>Step 2: Choose Outfit</h3>
+        <div id="outfit-options" class="options-container">
+            <!-- Outfit options will depend on chosen hairstyle -->
         </div>
     </div>
-    <button id="save-appearance">Save Appearance</button>
+
+    <div id="character-preview" class="character-preview">
+        <img id="hair-layer" class="layer">
+        <img id="outfit-layer" class="layer">
+    </div>
+
+    <button id="save-character" class="hidden">Save Character</button>
 </div>
+
 
         <div id="events"></div>
         <div id="menu"></div>
