@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeSim</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <!-- Start Modal -->
+<div id="start-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h1>Welcome to LifeSim!</h1>
+        <p>Create your character</p>
+        <form id="player-form">
+            <label>First Name:</label>
+            <input type="text" id="firstName" required>
+
+            <label>Middle Name:</label>
+            <input type="text" id="middleName" required>
+
+            <label>Surname:</label>
+            <input type="text" id="surname" required>
+
+            <label>Gender:</label>
+            <select id="gender" required>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label>Nationality:</label>
+            <input type="text" id="nationality" required>
+
+            <button type="submit">Start Life</button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Main Game Container -->
+    <div id="game-container" class="hidden">
+        <h2>LifeSim</h2>
+        <div id="player-info">
+            <p>Age: <span id="age">0</span></p>
+            <p>Life Stage: <span id="lifeStage">baby</span></p>
+        </div>
+      <div id="character-preview" class="character-preview">
+    <img id="face-layer" src="assets/svgs/face1.svg" class="layer">
+    <img id="eyes-layer" src="assets/svgs/eyes1.svg" class="layer">
+    <img id="hair-layer" src="assets/svgs/hair1.svg" class="layer">
+    <img id="outfit-layer" src="assets/svgs/outfit1.svg" class="layer">
+</div>
+
+        <div id="stats">
+            <p>Happiness: <span id="happiness">50</span></p>
+            <p>Intelligence: <span id="intelligence">50</span></p>
+            <p>Health: <span id="health">100</span></p>
+            <p>Appearance: <span id="appearance">50</span></p>
+            <p>Popularity: <span id="popularity">50</span></p>
+        </div>
+      <div id="character-tab" class="hidden">
+    <h2>Customize Your Character</h2>
+    <div class="appearance-section">
+        <h3>Hair</h3>
+        <div id="hair-options" class="options-container">
+            <img src="assets/svgs/hair1.svg" data-hair="hair1" class="option-svg">
+            <img src="assets/svgs/hair2.svg" data-hair="hair2" class="option-svg">
+            <img src="assets/svgs/hair3.svg" data-hair="hair3" class="option-svg">
+        </div>
+
+        <h3>Eyes</h3>
+        <div id="eye-options" class="options-container">
+            <img src="assets/svgs/eyes1.svg" data-eye="eyes1" class="option-svg">
+            <img src="assets/svgs/eyes2.svg" data-eye="eyes2" class="option-svg">
+            <img src="assets/svgs/eyes3.svg" data-eye="eyes3" class="option-svg">
+        </div>
+
+        <h3>Outfit / Style</h3>
+        <div id="style-options" class="options-container">
+            <img src="assets/svgs/style1.svg" data-style="style1" class="option-svg">
+            <img src="assets/svgs/style2.svg" data-style="style2" class="option-svg">
+            <img src="assets/svgs/style3.svg" data-style="style3" class="option-svg">
+        </div>
+    </div>
+    <button id="save-appearance">Save Appearance</button>
+</div>
+
+        <div id="events"></div>
+        <div id="menu"></div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
