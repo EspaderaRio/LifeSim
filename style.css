@@ -1,0 +1,50 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #2b1055, #7597de);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.hidden { display: none; }
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #1e1e2f;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-content input, .modal-content select, .modal-content button {
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    background: #7597de;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#game-container {
+    padding: 20px;
+}
+
+#stats p, #player-info p {
+    margin: 5px 0;
+}
