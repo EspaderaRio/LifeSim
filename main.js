@@ -39,89 +39,60 @@ function updateGameUI() {
     document.getElementById("popularity").textContent = player.stats.popularity;
 }
 
+const player = {
+  appearance: {}
+};
+
+const characterImg = document.getElementById("character-image");
 const hairOptions = document.querySelectorAll("#hair-options .option-svg");
 const outfitSelection = document.getElementById("outfit-selection");
 const outfitOptionsContainer = document.getElementById("outfit-options");
 const saveBtn = document.getElementById("save-character");
-const hairLayer = document.getElementById("hair-layer");
-const outfitLayer = document.getElementById("outfit-layer");
 
-// Example outfits mapped to hair
+// Define which outfits belong to each hair type
 const outfitsByHair = {
-    hair1: ["outfit1", "outfit2"],
-    hair2: ["outfit3", "outfit4"],
-    hair3: ["outfit5", "outfit6"]
+  hair1: ["outfit1", "outfit2"],
+  hair2: ["outfit1", "outfit2"],
+  hair3: ["outfit1", "outfit2"]
 };
 
-// Step 1: Choose Hair
+// STEP 1: Choose Hair
 hairOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        player.appearance.hairColor = option.dataset.hair;
-        hairLayer.src = `assets/svgs/${player.appearance.hairColor}.svg`;
+  option.addEventListener("click", () => {
+    const selectedHair = option.dataset.hair;
+    player.appearance.hair = selectedHair;
 
-        // Lock hair and move to outfit selection
-        document.getElementById("hair-selection").classList.add("hidden");
-        outfitSelection.classList.remove("hidden");
+    // Update preview
+    characterImg.src = `assets/svgs/${selectedHair}/base.svg`;
 
-        // Populate outfit options based on chosen hair
-        outfitOptionsContainer.innerHTML = ""; // clear previous
-        const outfits = outfitsByHair[player.appearance.hairColor];
-        outfits.forEach(outfit => {
-            const img = document.createElement("img");
-            img.src = `assets/svgs/${outfit}.svg`;
-            img.dataset.outfit = outfit;
-            img.classList.add("option-svg");
-            outfitOptionsContainer.appendChild(img);
+    // Lock hair and go to outfit selection
+    document.getElementById("hair-selection").classList.add("hidden");
+    outfitSelection.classList.remove("hidden");
 
-            img.addEventListener("click", () => {
-                player.appearance.style = outfit;
-                outfitLayer.src = `assets/svgs/${outfit}.svg`;
+    // Populate outfits for chosen hairstyle
+    outfitOptionsContainer.innerHTML = "";
+    const outfits = outfitsByHair[selectedHair];
+    outfits.forEach(outfit => {
+      const img = document.createElement("img");
+      img.src = `assets/svgs/${selectedHair}/${outfit}.svg`;
+      img.dataset.outfit = outfit;
+      img.classList.add("option-svg");
+      outfitOptionsContainer.appendChild(img);
 
-                // Show save button
-                saveBtn.classList.remove("hidden");
-            });
-        });
+      img.addEventListener("click", () => {
+        player.appearance.outfit = outfit;
+        characterImg.src = `assets/svgs/${selectedHair}/${outfit}.svg`;
+        saveBtn.classList.remove("hidden");
+      });
     });
+  });
 });
 
-// Step 2: Save Character
+// STEP 2: Save Character
 saveBtn.addEventListener("click", () => {
-    document.getElementById("character-tab").classList.add("hidden");
-    alert("Character saved!");
-    console.log("Final Character:", player.appearance);
-});
-
-function updateCharacterPreview() {
-    document.getElementById("hair-layer").src = `assets/svgs/${player.appearance.hairColor}.svg`;
-    document.getElementById("outfit-layer").src = `assets/svgs/${player.appearance.style}.svg`;
-}
-
-// Call update whenever the player selects a new hair/eye/style
-hairOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        player.appearance.hairColor = option.dataset.hair;
-        updateCharacterPreview();
-    });
-});
-eyeOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        player.appearance.eyeColor = option.dataset.eye;
-        updateCharacterPreview();
-    });
-});
-
-faceOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        player.appearance.face = option.dataset.face;
-        updateCharacterPreview();
-    });
-});
-
-styleOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        player.appearance.style = option.dataset.style;
-        updateCharacterPreview();
-    });
+  document.getElementById("character-tab").classList.add("hidden");
+  alert(`Character saved! Hairstyle: ${player.appearance.hair}, Outfit: ${player.appearance.outfit}`);
+  console.log("Final Character:", player.appearance);
 });
 
 
