@@ -39,9 +39,6 @@ function updateGameUI() {
     document.getElementById("popularity").textContent = player.stats.popularity;
 }
 
-const player = {
-  appearance: {}
-};
 
 const characterImg = document.getElementById("character-image");
 const hairOptions = document.querySelectorAll("#hair-options .option-svg");
