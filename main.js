@@ -1,5 +1,5 @@
 // ===================== IMPORTS ===================== //
-import { player, generateFamily } from "./player.js";
+import { player, generateFamily, resetPlayer } from "./player.js"; 
 import { updateLifeStage } from "./lifeStages.js";
 import { scenarios } from "./scenarios.js";
 import { getAvailableMenu, performActivity } from "./menu.js";
