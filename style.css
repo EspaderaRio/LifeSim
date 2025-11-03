@@ -39,26 +39,61 @@ body {
   transform: scale(1.05);
 }
 
+#character-tab,
 #school-tab {
-  background: #1e1e2f;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 80%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(20, 20, 30, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  padding: 25px;
+  color: #fff;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
 }
 
-#school-actions button {
-  margin-right: 10px;
-  margin-top: 10px;
-  background: #7597de;
+#character-tab.active,
+#school-tab.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: all;
+}
+
+body.modal-open::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+.close-tab {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: #ff5f5f;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  color: white;
+  border-radius: 8px;
+  padding: 5px 10px;
   cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
 }
 
-#school-actions button:hover {
-  background: #5c7ed8;
+.close-tab:hover {
+  background: #ff3b3b;
 }
+
 
 button {
   background: #7597de;
@@ -136,16 +171,6 @@ button:hover {
   border-radius: 10px;
   padding: 10px 15px;
   margin-bottom: 15px;
-}
-
-/* ========== CHARACTER TAB ========== */
-#character-tab {
-  background: #1e1e2f;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  box-shadow: 0 0 10px rgba(117,151,222,0.3);
-  animation: fadeIn 0.5s ease;
 }
 
 /* ========== CHARACTER PREVIEW & OPTIONS ========== */
