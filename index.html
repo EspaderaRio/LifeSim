@@ -57,9 +57,20 @@
       <p>Popularity: <span id="popularity">50</span></p>
     </div>
 
-    <!-- ===================== CHARACTER TAB ===================== -->
-    <div id="character-tab" class="hidden">
+      <!-- ===================== NEW BUTTONS ===================== -->
+  <div class="action-buttons">
+    <button id="open-character-btn">Open Character Tab</button>
+    <button id="open-school-btn">Open School Tab</button>
+    <button id="add-year-btn">Add Year</button>
+  </div>
+
+    <div id="events"></div>
+    <div id="menu"></div>
+  </div>
+ <div id="character-tab" class="hidden">
       <h2>Customize Your Character</h2>
+   <button class="close-tab" data-close="character-tab">X</button>
+
 
       <div id="character-preview" class="character-preview">
         <img id="character-image" src="" alt="Character Preview" />
@@ -83,9 +94,11 @@
 
       <button id="save-character" class="hidden">Save Character</button>
     </div>
-<!-- ===================== SCHOOL TAB ===================== -->
+  <!-- ===================== SCHOOL TAB ===================== -->
 <div id="school-tab" class="hidden">
   <h2>📘 School Life</h2>
+  <button class="close-tab" data-close="school-tab">X</button>
+
 
   <div id="school-info">
     <p><strong>School:</strong> <span id="school-name">None</span></p>
@@ -101,17 +114,6 @@
     <button id="skip-class-btn">Skip Class</button>
   </div>
 </div>
-      <!-- ===================== NEW BUTTONS ===================== -->
-  <div class="action-buttons">
-    <button id="open-character-btn">Open Character Tab</button>
-    <button id="open-school-btn">Open School Tab</button>
-    <button id="add-year-btn">Add Year</button>
-  </div>
-
-    <div id="events"></div>
-    <div id="menu"></div>
-  </div>
-
   <script type="module" src="main.js"></script>
 </body>
 </html>
