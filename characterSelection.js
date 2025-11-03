@@ -1,36 +1,44 @@
-// characterSelection.js
-
 import { player } from "./player.js";
 
-// Define function
 export function initCharacterSelection() {
+  const characterTab = document.getElementById("character-tab");
   const characterImg = document.getElementById("character-image");
   const hairOptions = document.querySelectorAll("#hair-options .option-svg");
   const outfitSelection = document.getElementById("outfit-selection");
   const outfitOptionsContainer = document.getElementById("outfit-options");
   const saveBtn = document.getElementById("save-character");
 
+  // ✅ Safety check — ensure elements exist
+  if (!characterTab || hairOptions.length === 0) {
+    console.warn("Character selection UI not found in DOM yet.");
+    return;
+  }
+
+  // --- Define outfit sets for each hairstyle ---
   const outfitsByHair = {
     hair1: ["outfit1", "outfit2"],
     hair2: ["outfit1", "outfit2"],
-    hair3: ["outfit1", "outfit2"]
+    hair3: ["outfit1", "outfit2"],
+    hair4: ["outfit1", "outfit2"],
+    hair5: ["outfit1", "outfit2"]
   };
 
-  // Step 1: Choose Hair
+  // --- Step 1: Choose Hair ---
   hairOptions.forEach(option => {
     option.addEventListener("click", () => {
       const selectedHair = option.dataset.hair;
       player.appearance.hair = selectedHair;
 
+      // Update preview image
       characterImg.src = `assets/svgs/${selectedHair}/base.svg`;
 
-      // Lock hair and go to outfit selection
+      // Lock hair step and move to outfit selection
       document.getElementById("hair-selection").classList.add("hidden");
       outfitSelection.classList.remove("hidden");
 
       // Populate outfits
       outfitOptionsContainer.innerHTML = "";
-      const outfits = outfitsByHair[selectedHair];
+      const outfits = outfitsByHair[selectedHair] || [];
       outfits.forEach(outfit => {
         const img = document.createElement("img");
         img.src = `assets/svgs/${selectedHair}/${outfit}.svg`;
@@ -47,10 +55,12 @@ export function initCharacterSelection() {
     });
   });
 
-  // Step 2: Save Character
+  // --- Step 2: Save Character ---
   saveBtn.addEventListener("click", () => {
-    document.getElementById("character-tab").classList.add("hidden");
-    alert(`Character saved! Hairstyle: ${player.appearance.hair}, Outfit: ${player.appearance.outfit}`);
-    console.log("Final Character:", player.appearance);
+    characterTab.classList.add("hidden");
+    alert(
+      `Character saved!\nHair: ${player.appearance.hair}\nOutfit: ${player.appearance.outfit}`
+    );
+    console.log("✅ Final Character:", player.appearance);
   });
 }
