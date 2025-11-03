@@ -67,13 +67,8 @@ body {
   pointer-events: all;
 }
 
-body.modal-open::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 999;
+body.modal-open .tab.active {
+  filter: none; /* only blur background when active */
 }
 
 .close-tab {
