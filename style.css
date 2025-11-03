@@ -91,3 +91,6 @@ button {
 #stats p, #player-info p {
     margin: 5px 0;
 }
+.hidden {
+  display: none !important;
+}
