@@ -12,8 +12,13 @@ window.addEventListener("DOMContentLoaded", () => {
   const gameContainer = document.getElementById("game-container");
 
   const openCharacterBtn = document.getElementById("open-character-btn");
+  const openSchoolBtn = document.getElementById("open-school-btn");
   const addYearBtn = document.getElementById("add-year-btn");
-  const characterTab = document.getElementById("character-tab");
+
+  const tabs = {
+    character: document.getElementById("character-tab"),
+    school: document.getElementById("school-tab")
+  };
 
   // ===================== FORM SUBMISSION ===================== //
   if (playerForm) {
@@ -41,15 +46,30 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ===================== OPEN CHARACTER TAB ===================== //
-  if (openCharacterBtn && characterTab) {
-    openCharacterBtn.addEventListener("click", () => {
-      characterTab.classList.toggle("hidden");
-      openCharacterBtn.textContent = characterTab.classList.contains("hidden")
-        ? "Open Character Tab"
-        : "Close Character Tab";
-    });
+  // ===================== FLOATING TAB MODALS ===================== //
+  function openTab(tab) {
+    document.body.classList.add("modal-open");
+    tab.classList.remove("hidden");
+    setTimeout(() => tab.classList.add("active"), 10);
   }
+
+  function closeTab(tab) {
+    tab.classList.remove("active");
+    document.body.classList.remove("modal-open");
+    setTimeout(() => tab.classList.add("hidden"), 200);
+  }
+
+  // --- Open buttons ---
+  if (openCharacterBtn) openCharacterBtn.addEventListener("click", () => openTab(tabs.character));
+  if (openSchoolBtn) openSchoolBtn.addEventListener("click", () => openTab(tabs.school));
+
+  // --- Close buttons ---
+  document.querySelectorAll(".close-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.dataset.close;
+      closeTab(document.getElementById(tabId));
+    });
+  });
 
   // ===================== ADD YEAR BUTTON ===================== //
   if (addYearBtn) {
@@ -84,69 +104,44 @@ window.addEventListener("DOMContentLoaded", () => {
       updateSchoolUI();
     });
   }
-});
 
-// ===================== SCHOOL SYSTEM ===================== //
-document.addEventListener("DOMContentLoaded", () => {
-  const schoolTab = document.getElementById("school-tab");
-  const openSchoolBtn = document.getElementById("open-school-btn");
+  // ===================== SCHOOL SYSTEM ===================== //
   const joinClubBtn = document.getElementById("join-club-btn");
   const studyBtn = document.getElementById("study-btn");
   const skipBtn = document.getElementById("skip-class-btn");
 
-  // --- Open / Close School Tab ---
-  if (openSchoolBtn && schoolTab) {
-    openSchoolBtn.addEventListener("click", () => {
-      schoolTab.classList.toggle("hidden");
-      openSchoolBtn.textContent = schoolTab.classList.contains("hidden")
-        ? "Open School Tab"
-        : "Close School Tab";
-      updateSchoolUI();
-    });
-  }
+  if (joinClubBtn) joinClubBtn.addEventListener("click", () => {
+    const clubs = ["Basketball", "Drama", "Science", "Music"];
+    const randomClub = clubs[Math.floor(Math.random() * clubs.length)];
 
-  // --- Join Club ---
-  if (joinClubBtn) {
-    joinClubBtn.addEventListener("click", () => {
-      const clubs = ["Basketball", "Drama", "Science", "Music"];
-      const randomClub = clubs[Math.floor(Math.random() * clubs.length)];
+    if (!player.school.clubs.includes(randomClub)) {
+      player.school.clubs.push(randomClub);
+      alert(`You joined the ${randomClub} Club!`);
+      player.stats.popularity += 5;
+    } else alert(`You're already a member of the ${randomClub} Club.`);
 
-      if (!player.school.clubs.includes(randomClub)) {
-        player.school.clubs.push(randomClub);
-        alert(`You joined the ${randomClub} Club!`);
-        player.stats.popularity += 5;
-      } else {
-        alert(`You're already a member of the ${randomClub} Club.`);
-      }
-      updateSchoolUI();
-      updateGameUI();
-    });
-  }
+    updateSchoolUI();
+    updateGameUI();
+  });
 
-  // --- Study ---
-  if (studyBtn) {
-    studyBtn.addEventListener("click", () => {
-      player.stats.intelligence += 5;
-      player.school.performance += 10;
-      player.school.attendance += 2;
-      alert("You studied hard and improved your grades!");
-      updateSchoolUI();
-      updateGameUI();
-    });
-  }
+  if (studyBtn) studyBtn.addEventListener("click", () => {
+    player.stats.intelligence += 5;
+    player.school.performance += 10;
+    player.school.attendance += 2;
+    alert("You studied hard and improved your grades!");
+    updateSchoolUI();
+    updateGameUI();
+  });
 
-  // --- Skip Class ---
-  if (skipBtn) {
-    skipBtn.addEventListener("click", () => {
-      player.stats.happiness += 5;
-      player.stats.popularity += 3;
-      player.school.attendance -= 10;
-      player.school.performance -= 5;
-      alert("You skipped class. Happiness increased, but performance dropped.");
-      updateSchoolUI();
-      updateGameUI();
-    });
-  }
+  if (skipBtn) skipBtn.addEventListener("click", () => {
+    player.stats.happiness += 5;
+    player.stats.popularity += 3;
+    player.school.attendance -= 10;
+    player.school.performance -= 5;
+    alert("You skipped class. Happiness increased, but performance dropped.");
+    updateSchoolUI();
+    updateGameUI();
+  });
 });
 
 // ===================== UPDATE SCHOOL UI ===================== //
@@ -163,13 +158,11 @@ function updateSchoolUI() {
   if (gradeEl) gradeEl.textContent = player.school.gradeLevel || "N/A";
   if (attendanceEl) attendanceEl.textContent = `${player.school.attendance}%`;
   if (clubsEl)
-    clubsEl.textContent =
-      player.school.clubs.length > 0 ? player.school.clubs.join(", ") : "None";
+    clubsEl.textContent = player.school.clubs.length > 0 ? player.school.clubs.join(", ") : "None";
 
   if (performanceEl) {
     if (player.school.performance >= 75) performanceEl.textContent = "Excellent";
-    else if (player.school.performance >= 50)
-      performanceEl.textContent = "Average";
+    else if (player.school.performance >= 50) performanceEl.textContent = "Average";
     else performanceEl.textContent = "Poor";
   }
 }
@@ -179,13 +172,11 @@ function updateGameUI() {
   document.getElementById("age").textContent = player.age;
   document.getElementById("lifeStage").textContent = player.lifeStage;
 
-  // Update stats
   for (const stat in player.stats) {
     const el = document.getElementById(stat);
     if (el) el.textContent = player.stats[stat];
   }
 
-  // Display money
   const moneyEl = document.getElementById("money");
   if (moneyEl) moneyEl.textContent = `$${player.money.toLocaleString()}`;
 }
@@ -208,29 +199,19 @@ function triggerRandomScenario() {
   const stageScenarios = scenarios[player.lifeStage];
   if (!stageScenarios || stageScenarios.length === 0) return;
 
-  const scenario =
-    stageScenarios[Math.floor(Math.random() * stageScenarios.length)];
-
+  const scenario = stageScenarios[Math.floor(Math.random() * stageScenarios.length)];
   applyScenario(scenario);
   console.log(`Age ${player.age}: ${scenario.desc}`);
 }
 
 function applyScenario(scenario) {
   if (scenario.effect.stats) {
-    for (const stat in scenario.effect.stats) {
-      player.stats[stat] += scenario.effect.stats[stat];
-    }
+    for (const stat in scenario.effect.stats) player.stats[stat] += scenario.effect.stats[stat];
   }
-
   if (scenario.effect.skills) {
-    for (const skill in scenario.effect.skills) {
-      player.skills[skill] += scenario.effect.skills[skill];
-    }
+    for (const skill in scenario.effect.skills) player.skills[skill] += scenario.effect.skills[skill];
   }
-
-  if (scenario.effect.money) {
-    player.money += scenario.effect.money;
-  }
+  if (scenario.effect.money) player.money += scenario.effect.money;
 }
 
 // ===================== DEBUG ===================== //
