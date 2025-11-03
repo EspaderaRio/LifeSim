@@ -7,7 +7,6 @@ import { initCharacterSelection } from "./characterSelection.js";
 
 // ===================== MAIN INITIALIZATION ===================== //
 window.addEventListener("DOMContentLoaded", () => {
-  // --- Elements ---
   const startModal = document.getElementById("start-modal");
   const playerForm = document.getElementById("player-form");
   const gameContainer = document.getElementById("game-container");
@@ -21,24 +20,23 @@ window.addEventListener("DOMContentLoaded", () => {
     playerForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Collect player data
+      // --- Collect player data ---
       player.firstName = document.getElementById("firstName").value.trim();
       player.middleName = document.getElementById("middleName").value.trim();
       player.surname = document.getElementById("surname").value.trim();
       player.gender = document.getElementById("gender").value;
       player.nationality = document.getElementById("nationality").value.trim();
 
-      // Generate family background
+      // --- Generate Family ---
       generateFamily();
 
-      // Hide modal and show game
+      // --- Hide Modal & Show Game ---
       startModal.classList.add("hidden");
       gameContainer.classList.remove("hidden");
 
-      // Initialize first UI update
+      // --- Initialize UI ---
       updateGameUI();
-
-      // Initialize character selection
+      updateSchoolUI();
       initCharacterSelection();
     });
   }
@@ -57,25 +55,137 @@ window.addEventListener("DOMContentLoaded", () => {
   if (addYearBtn) {
     addYearBtn.addEventListener("click", () => {
       player.age++;
+
+      // --- School Progression ---
+      if (player.age === 5) {
+        player.school.name = "Sunrise Elementary";
+        player.school.gradeLevel = "Kindergarten";
+        alert("You have started school at Sunrise Elementary!");
+      }
+      if (player.age === 12) {
+        player.school.name = "Maplewood Middle School";
+        player.school.gradeLevel = "Grade 6";
+        alert("You advanced to Maplewood Middle School!");
+      }
+      if (player.age === 15) {
+        player.school.name = "Hillcrest High School";
+        player.school.gradeLevel = "Grade 9";
+        alert("You are now a student at Hillcrest High!");
+      }
+      if (player.age === 18) {
+        player.school.name = null;
+        player.education = "High School Graduate";
+        alert("You graduated from high school!");
+      }
+
       updateLifeStage(player);
       triggerRandomScenario();
+      updateGameUI();
+      updateSchoolUI();
+    });
+  }
+});
+
+// ===================== SCHOOL SYSTEM ===================== //
+document.addEventListener("DOMContentLoaded", () => {
+  const schoolTab = document.getElementById("school-tab");
+  const openSchoolBtn = document.getElementById("open-school-btn");
+  const joinClubBtn = document.getElementById("join-club-btn");
+  const studyBtn = document.getElementById("study-btn");
+  const skipBtn = document.getElementById("skip-class-btn");
+
+  // --- Open / Close School Tab ---
+  if (openSchoolBtn && schoolTab) {
+    openSchoolBtn.addEventListener("click", () => {
+      schoolTab.classList.toggle("hidden");
+      openSchoolBtn.textContent = schoolTab.classList.contains("hidden")
+        ? "Open School Tab"
+        : "Close School Tab";
+      updateSchoolUI();
+    });
+  }
+
+  // --- Join Club ---
+  if (joinClubBtn) {
+    joinClubBtn.addEventListener("click", () => {
+      const clubs = ["Basketball", "Drama", "Science", "Music"];
+      const randomClub = clubs[Math.floor(Math.random() * clubs.length)];
+
+      if (!player.school.clubs.includes(randomClub)) {
+        player.school.clubs.push(randomClub);
+        alert(`You joined the ${randomClub} Club!`);
+        player.stats.popularity += 5;
+      } else {
+        alert(`You're already a member of the ${randomClub} Club.`);
+      }
+      updateSchoolUI();
+      updateGameUI();
+    });
+  }
+
+  // --- Study ---
+  if (studyBtn) {
+    studyBtn.addEventListener("click", () => {
+      player.stats.intelligence += 5;
+      player.school.performance += 10;
+      player.school.attendance += 2;
+      alert("You studied hard and improved your grades!");
+      updateSchoolUI();
+      updateGameUI();
+    });
+  }
+
+  // --- Skip Class ---
+  if (skipBtn) {
+    skipBtn.addEventListener("click", () => {
+      player.stats.happiness += 5;
+      player.stats.popularity += 3;
+      player.school.attendance -= 10;
+      player.school.performance -= 5;
+      alert("You skipped class. Happiness increased, but performance dropped.");
+      updateSchoolUI();
       updateGameUI();
     });
   }
 });
 
-// ===================== UI UPDATES ===================== //
+// ===================== UPDATE SCHOOL UI ===================== //
+function updateSchoolUI() {
+  const nameEl = document.getElementById("school-name");
+  const gradeEl = document.getElementById("grade-level");
+  const attendanceEl = document.getElementById("attendance");
+  const performanceEl = document.getElementById("performance");
+  const clubsEl = document.getElementById("school-clubs");
+
+  if (!player.school) return;
+
+  if (nameEl) nameEl.textContent = player.school.name || "None";
+  if (gradeEl) gradeEl.textContent = player.school.gradeLevel || "N/A";
+  if (attendanceEl) attendanceEl.textContent = `${player.school.attendance}%`;
+  if (clubsEl)
+    clubsEl.textContent =
+      player.school.clubs.length > 0 ? player.school.clubs.join(", ") : "None";
+
+  if (performanceEl) {
+    if (player.school.performance >= 75) performanceEl.textContent = "Excellent";
+    else if (player.school.performance >= 50)
+      performanceEl.textContent = "Average";
+    else performanceEl.textContent = "Poor";
+  }
+}
+
+// ===================== UPDATE MAIN GAME UI ===================== //
 function updateGameUI() {
   document.getElementById("age").textContent = player.age;
   document.getElementById("lifeStage").textContent = player.lifeStage;
 
-  // Update all player stats
+  // Update stats
   for (const stat in player.stats) {
     const el = document.getElementById(stat);
     if (el) el.textContent = player.stats[stat];
   }
 
-  // Optional: display money
+  // Display money
   const moneyEl = document.getElementById("money");
   if (moneyEl) moneyEl.textContent = `$${player.money.toLocaleString()}`;
 }
@@ -90,6 +200,7 @@ export function advanceMonth() {
     triggerRandomScenario();
   }
   updateGameUI();
+  updateSchoolUI();
 }
 
 // ===================== SCENARIOS ===================== //
