@@ -5,53 +5,60 @@ import { scenarios } from "./scenarios.js";
 import { getAvailableMenu, performActivity } from "./menu.js";
 import { initCharacterSelection } from "./characterSelection.js";
 
-// ===================== GAME INITIALIZATION ===================== //
+// ===================== MAIN INITIALIZATION ===================== //
 window.addEventListener("DOMContentLoaded", () => {
   // --- Elements ---
   const startModal = document.getElementById("start-modal");
-  const startBtn = document.getElementById("start-game-btn");
-  const nameInput = document.getElementById("player-name");
   const playerForm = document.getElementById("player-form");
   const gameContainer = document.getElementById("game-container");
 
-  // --- Step 1: Start Button ---
-  if (startBtn) {
-    startBtn.addEventListener("click", () => {
-      const name = nameInput?.value.trim();
-      if (!name) {
-        alert("Please enter your name!");
-        return;
-      }
+  const openCharacterBtn = document.getElementById("open-character-btn");
+  const addYearBtn = document.getElementById("add-year-btn");
+  const characterTab = document.getElementById("character-tab");
 
-      // Save name and hide modal
-      player.firstName = name;
-      startModal.classList.add("hidden");
-
-      // Launch character selection screen
-      initCharacterSelection();
-    });
-  }
-
-  // --- Step 2: Player Form Submission ---
+  // ===================== FORM SUBMISSION ===================== //
   if (playerForm) {
     playerForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Collect data
-      player.firstName = document.getElementById("firstName").value;
-      player.middleName = document.getElementById("middleName").value;
-      player.surname = document.getElementById("surname").value;
+      // Collect player data
+      player.firstName = document.getElementById("firstName").value.trim();
+      player.middleName = document.getElementById("middleName").value.trim();
+      player.surname = document.getElementById("surname").value.trim();
       player.gender = document.getElementById("gender").value;
-      player.nationality = document.getElementById("nationality").value;
+      player.nationality = document.getElementById("nationality").value.trim();
 
-      // Generate family data
+      // Generate family background
       generateFamily();
 
-      // Hide start modal and show main game container
+      // Hide modal and show game
       startModal.classList.add("hidden");
       gameContainer.classList.remove("hidden");
 
-      // Initialize UI
+      // Initialize first UI update
+      updateGameUI();
+
+      // Initialize character selection
+      initCharacterSelection();
+    });
+  }
+
+  // ===================== OPEN CHARACTER TAB ===================== //
+  if (openCharacterBtn && characterTab) {
+    openCharacterBtn.addEventListener("click", () => {
+      characterTab.classList.toggle("hidden");
+      openCharacterBtn.textContent = characterTab.classList.contains("hidden")
+        ? "Open Character Tab"
+        : "Close Character Tab";
+    });
+  }
+
+  // ===================== ADD YEAR BUTTON ===================== //
+  if (addYearBtn) {
+    addYearBtn.addEventListener("click", () => {
+      player.age++;
+      updateLifeStage(player);
+      triggerRandomScenario();
       updateGameUI();
     });
   }
@@ -62,13 +69,13 @@ function updateGameUI() {
   document.getElementById("age").textContent = player.age;
   document.getElementById("lifeStage").textContent = player.lifeStage;
 
-  // Update all stats
+  // Update all player stats
   for (const stat in player.stats) {
-    const statEl = document.getElementById(stat);
-    if (statEl) statEl.textContent = player.stats[stat];
+    const el = document.getElementById(stat);
+    if (el) el.textContent = player.stats[stat];
   }
 
-  // Update money display if you have an element for it
+  // Optional: display money
   const moneyEl = document.getElementById("money");
   if (moneyEl) moneyEl.textContent = `$${player.money.toLocaleString()}`;
 }
@@ -76,19 +83,12 @@ function updateGameUI() {
 // ===================== TIME PROGRESSION ===================== //
 export function advanceMonth() {
   player.month++;
-
   if (player.month > 12) {
     player.month = 1;
     player.age++;
-
-    // Update life stage (e.g., baby → child → teen, etc.)
     updateLifeStage(player);
-
-    // Trigger random life scenario
     triggerRandomScenario();
   }
-
-  // Refresh the display
   updateGameUI();
 }
 
@@ -105,26 +105,23 @@ function triggerRandomScenario() {
 }
 
 function applyScenario(scenario) {
-  // Apply stat changes
   if (scenario.effect.stats) {
     for (const stat in scenario.effect.stats) {
       player.stats[stat] += scenario.effect.stats[stat];
     }
   }
 
-  // Apply skill changes
   if (scenario.effect.skills) {
     for (const skill in scenario.effect.skills) {
       player.skills[skill] += scenario.effect.skills[skill];
     }
   }
 
-  // Apply money changes
   if (scenario.effect.money) {
     player.money += scenario.effect.money;
   }
 }
 
-// ===================== DEBUG (Optional) ===================== //
+// ===================== DEBUG ===================== //
 console.log("Available Menu:", getAvailableMenu());
 performActivity("Martial Arts");
